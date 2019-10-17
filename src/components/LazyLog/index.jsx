@@ -40,8 +40,8 @@ export default class LazyLog extends Component {
      */
     url: string.isRequired,
     /**
-     * The requestor can override default transport mechanism which http request or chunked http request.
-     * This function should return an emitter
+     * The requestor can override default transport mechanism which http
+     * request or chunked http request. This function should return an emitter.
      */
     requestor: func,
     /**
@@ -267,13 +267,15 @@ export default class LazyLog extends Component {
     const { url, fetchOptions, stream: isStream, requestor } = this.props;
 
     this.endRequest();
-    if(requestor) {
+
+    if (requestor) {
       this.emitter = requestor(url, fetchOptions);
     } else {
       this.emitter = isStream
-      ? stream(url, fetchOptions)
-      : request(url, fetchOptions);
+        ? stream(url, fetchOptions)
+        : request(url, fetchOptions);
     }
+
     this.emitter.on('update', this.handleUpdate);
     this.emitter.on('end', this.handleEnd);
     this.emitter.on('error', this.handleError);
